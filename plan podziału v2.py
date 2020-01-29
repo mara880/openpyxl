@@ -1,28 +1,54 @@
 from openpyxl import Workbook
 from openpyxl import load_workbook
-from openpyxl.styles import Border, Side
+from openpyxl.styles import Border, Side, NamedStyle, Font, Alignment
 arkusz = Workbook()
 skoroszyt = arkusz.active
 skoroszyt.title = "Plan podziału"
+
+
+
+def wysrodkowany(row, column):
+    komorka = skoroszyt.cell(row=row,column=column)
+    komorka.font = Font(size=12, b=True)
+    komorka.alignment = Alignment(horizontal='center', vertical='center')
+
+def szerokosc_kolumn():
+    skoroszyt.column_dimensions["A"].width = 20
+    skoroszyt.column_dimensions["B"].width = 20
+    skoroszyt.column_dimensions["C"].width = 20
+    skoroszyt.column_dimensions["D"].width = 20
+    skoroszyt.column_dimensions["E"].width = 20
+    skoroszyt.column_dimensions["F"].width = 20
+    skoroszyt.column_dimensions["G"].width = 30
+
 def naglowek():
+    szerokosc_kolumn()
     skoroszyt.merge_cells('A1:A3')
+    wysrodkowany(1,1)
     skoroszyt.cell(row=1, column=1).value = "Nazwa Wierzyciela"
+    wysrodkowany(1,2)
     skoroszyt.merge_cells('B1:B3')
     skoroszyt.cell(row=1, column=2).value = "nr TW"
+    wysrodkowany(1,3)
     skoroszyt.merge_cells('C1:C3')
     skoroszyt.cell(row=1, column=3).value = "Należność główna"
+    wysrodkowany(1,4)
     skoroszyt.merge_cells('D1:D3')
     skoroszyt.cell(row=1, column=4).value = "Odsetki"
+    wysrodkowany(1,5)
     skoroszyt.merge_cells('E1:E3')
     skoroszyt.cell(row=1, column=5).value = "Koszty upomnienia"
+    wysrodkowany(1,6)
     skoroszyt.merge_cells('F1:F3')
     skoroszyt.cell(row=1, column=6).value = "Koszty egzekucyjne"
+    wysrodkowany(1,7)
     skoroszyt.merge_cells('G1:G3')
-    skoroszyt.cell(row=1, column=7).value = "Udział procentowy (należność główna + odsetki"
+    skoroszyt.cell(row=1, column=7).value = "Udział procentowy \n(należność główna + odsetki)"
 
 def kategoria_1(row, numer_kategorii):
     skoroszyt.merge_cells(start_row=row, end_row=row, start_column=1, end_column=7)
     skoroszyt.cell(row=row, column=1).value = "Wierzyciel kategorii " + numer_kategorii
+    wysrodkowany(row,1)
 
 def wprowadzanie_danych(wiersz):
     nazwa_wierzyciela = str(input("Podaj nazwę wierzyciela:"))
